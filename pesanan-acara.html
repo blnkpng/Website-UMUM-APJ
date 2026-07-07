@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pesanan Acara | Ampera Pak Jenggot</title>
+    <meta name="description" content="Buat pesanan nasi kotak, nasi bungkus, lauk saja, dan reservasi acara Ampera Pak Jenggot dari website lalu checkout ke WhatsApp admin APJ." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lato:wght@400;700;900&family=Merriweather:wght@700;900&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://script.google.com" />
+    <link rel="preconnect" href="https://script.googleusercontent.com" crossorigin />
+    <link rel="icon" href="assets/img/favicon.png" />
+    <link rel="stylesheet" href="assets/css/style.css?v=20260707-custom-order-empty-responsive1" />
+    <script src="assets/js/main.js?v=20260707-secret-safe1" defer></script>
+    <script src="assets/js/pesanan-acara.js?v=20260707-custom-order-empty-responsive1" defer></script>
+  </head>
+  <body class="order-page custom-order-page">
+    <a class="skip-link" href="#main">Lewati ke konten</a>
+
+    <header class="site-header" id="top">
+      <div class="nav-shell">
+        <a class="brand" href="index.html#beranda" aria-label="Ampera Pak Jenggot, kembali ke beranda">
+          <img src="assets/img/logo-apj.png" alt="Logo APJ" class="brand-logo" width="54" height="64" decoding="async" fetchpriority="high" />
+          <span class="brand-copy">
+            <strong>Ampera Pak Jenggot</strong>
+            <small>Cita Rasa Minang di Kota Batu</small>
+          </span>
+        </a>
+
+        <nav class="desktop-nav" aria-label="Navigasi utama">
+          <a href="index.html#beranda">Beranda</a>
+          <a href="menu.html">Menu</a>
+          <a href="index.html#outlet">Lokasi</a>
+          <a href="index.html#cerita">About</a>
+          <a href="index.html#kontak">Kontak</a>
+        </nav>
+
+        <div class="header-actions">
+          <a class="btn btn-outline btn-small" href="menu.html">Menu Online</a>
+          <a class="btn btn-gold btn-small" href="#order-builder">Buat Pesanan</a>
+        </div>
+
+        <button class="mobile-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Buka menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+
+      <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+        <nav aria-label="Navigasi mobile">
+          <a href="index.html#beranda">Beranda</a>
+          <a href="menu.html">Menu</a>
+          <a href="index.html#outlet">Lokasi</a>
+          <a href="index.html#cerita">About</a>
+          <a href="index.html#kontak">Kontak</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="order-hero custom-order-hero">
+        <div class="container order-hero-inner">
+          <p class="section-kicker light">Pesanan Kotak, Bungkus &amp; Acara</p>
+          <h1>Buat pesanan custom, kirim rapi ke WhatsApp.</h1>
+          <p>
+            Cocok untuk nasi kotak, nasi bungkus, lauk saja, acara kantor, rombongan, pengajian, sekolah, dan keluarga besar. Bagi pesanan menjadi beberapa tipe, lalu admin APJ akan konfirmasi ketersediaan dan total akhir.
+          </p>
+          <div class="custom-order-hero-actions">
+            <a class="btn btn-cream" href="#order-builder">Mulai Buat Pesanan</a>
+            <button class="btn btn-ghost" id="load-sample-order" type="button">Isi Contoh Pesanan</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="custom-order-section" id="order-builder" aria-labelledby="custom-order-title">
+        <div class="container">
+          <div class="custom-order-heading">
+            <div>
+              <p class="section-kicker">Order Custom</p>
+              <h2 id="custom-order-title">Rincian Pemesanan</h2>
+              <p>Pakai grup pesanan supaya order campur tetap terbaca jelas: nasi bungkus, nasi kotak, dan lauk saja.</p>
+            </div>
+            <div class="custom-order-mini-note">
+              <strong>Tips</strong>
+              <span>Untuk nasi kotak/bungkus, total varian harus sama dengan jumlah total.</span>
+            </div>
+          </div>
+
+          <div class="custom-order-layout">
+            <div class="custom-order-main">
+              <section class="custom-order-card" aria-labelledby="customer-info-title">
+                <div class="custom-card-heading">
+                  <span>1</span>
+                  <div>
+                    <h3 id="customer-info-title">Data Pemesan</h3>
+                    <p>Isi singkat saja. Detail harga tetap dikonfirmasi admin.</p>
+                  </div>
+                </div>
+
+                <div class="custom-field-grid">
+                  <label>
+                    Nama Pemesan
+                    <input id="customer-name" type="text" placeholder="Contoh: Bapak Andi" autocomplete="name" />
+                  </label>
+                  <label>
+                    No. WhatsApp
+                    <input id="customer-phone" type="tel" placeholder="Contoh: 0822xxxx" autocomplete="tel" />
+                  </label>
+                  <label>
+                    Tanggal Pesanan / Acara
+                    <input id="order-date" type="date" />
+                  </label>
+                  <label>
+                    Jam Ambil / Kirim
+                    <input id="order-time" type="time" />
+                  </label>
+                  <label>
+                    Metode
+                    <select id="order-method">
+                      <option value="Ambil sendiri">Ambil sendiri</option>
+                      <option value="Delivery / Diantar">Delivery / Diantar</option>
+                      <option value="Makan di tempat / Reservasi">Makan di tempat / Reservasi</option>
+                    </select>
+                  </label>
+                  <label>
+                    Outlet / Alamat
+                    <input id="order-location" type="text" placeholder="Outlet tujuan atau alamat pengiriman" />
+                  </label>
+                </div>
+
+                <label class="custom-full-field">
+                  Catatan Umum
+                  <textarea id="order-note" rows="3" placeholder="Contoh: sambal dipisah, kuah dibungkus terpisah, untuk acara jam 11.00"></textarea>
+                </label>
+              </section>
+
+              <section class="custom-order-card" aria-labelledby="groups-title">
+                <div class="custom-card-heading custom-card-heading-split">
+                  <div class="custom-card-heading-left">
+                    <span>2</span>
+                    <div>
+                      <h3 id="groups-title">Grup Pesanan</h3>
+                      <p>Tambah beberapa tipe pesanan dalam satu order.</p>
+                    </div>
+                  </div>
+                  <div class="group-add-actions" aria-label="Tambah grup pesanan">
+                    <button class="btn btn-gold btn-small" type="button" data-add-group="Nasi Bungkus">+ Nasi Bungkus</button>
+                    <button class="btn btn-gold btn-small" type="button" data-add-group="Nasi Kotak">+ Nasi Kotak</button>
+                    <button class="btn btn-gold btn-small" type="button" data-add-group="Lauk Saja">+ Lauk Saja</button>
+                  </div>
+                </div>
+
+                <div id="custom-groups" class="custom-groups" aria-live="polite"></div>
+                <div id="custom-empty-state" class="custom-empty-state">
+                  <span class="custom-empty-icon" aria-hidden="true">+</span>
+                  <h3>Mulai dari satu jenis pesanan dulu</h3>
+                  <p>Pilih kebutuhan utama pelanggan. Kalau pesanan campur, nanti bisa tambah grup lain setelahnya.</p>
+                  <div class="custom-empty-actions" aria-label="Pilih jenis pesanan awal">
+                    <button class="btn btn-gold btn-small" type="button" data-add-group="Nasi Bungkus">Nasi Bungkus</button>
+                    <button class="btn btn-gold btn-small" type="button" data-add-group="Nasi Kotak">Nasi Kotak</button>
+                    <button class="btn btn-gold btn-small" type="button" data-add-group="Lauk Saja">Lauk Saja</button>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <aside class="custom-summary-panel" aria-labelledby="summary-title">
+              <p class="section-kicker">Ringkasan</p>
+              <h2 id="summary-title">Siap dikirim ke admin</h2>
+              <div id="custom-summary-list" class="custom-summary-list">
+                <p class="custom-summary-empty">Rincian pesanan akan tampil di sini.</p>
+              </div>
+
+              <div class="custom-summary-status" id="custom-summary-status" data-status="info">
+                Tambahkan grup pesanan dulu.
+              </div>
+
+              <button id="custom-checkout-wa" class="btn btn-gold custom-checkout-btn" type="button" disabled>Kirim Pesanan via WhatsApp</button>
+              <button id="custom-copy-message" class="custom-copy-btn" type="button" disabled>Salin Format Pesanan</button>
+              <p class="checkout-note">Harga dan ketersediaan akan dikonfirmasi oleh admin APJ. Ini bukan pembayaran otomatis.</p>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section class="reservation-section" aria-labelledby="reservation-title">
+        <div class="container reservation-card">
+          <div>
+            <p class="section-kicker light">Reservasi Cepat</p>
+            <h2 id="reservation-title">Mau reservasi rombongan tanpa rincian menu dulu?</h2>
+            <p>Kirim permintaan reservasi awal ke admin APJ. Detail menu bisa dibahas setelah admin membalas.</p>
+          </div>
+          <button id="reservation-wa" class="btn btn-cream" type="button">Chat Reservasi via WhatsApp</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer" id="kontak">
+      <div class="container footer-grid">
+        <div>
+          <h2>Ampera Pak Jenggot</h2>
+          <p>Masakan Padang untuk makan harian, nasi bungkus, nasi kotak, dan pesanan rombongan. Menjaga rasa Minang sejak 2006.</p>
+        </div>
+        <div>
+          <h3>Menu</h3>
+          <a href="menu.html">Menu Online</a>
+          <a href="pesanan-acara.html">Pesanan Acara</a>
+          <a href="index.html#outlet">Outlet</a>
+        </div>
+        <div>
+          <h3>Informasi</h3>
+          <a href="index.html#cerita">Cerita APJ</a>
+          <a href="index.html#kontak">Kontak</a>
+          <a href="admin-menu.html">Admin Menu</a>
+        </div>
+        <div>
+          <h3>Kontak</h3>
+          <p>WhatsApp: 08xx-xxxx-xxxx</p>
+          <p>Email: info@amperapakjenggot.com</p>
+          <p>Indonesia</p>
+        </div>
+      </div>
+      <div class="container footer-bottom">
+        <p>&copy; 2026 Ampera Pak Jenggot Semua hak dilindungi.</p>
+      </div>
+    </footer>
+  </body>
+</html>

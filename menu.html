@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Menu Online | Ampera Pak Jenggot</title>
+    <meta name="description" content="Pilih menu Ampera Pak Jenggot dari website dan checkout langsung ke WhatsApp admin APJ." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lato:wght@400;700;900&family=Merriweather:wght@700;900&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://script.google.com" />
+    <link rel="preconnect" href="https://script.googleusercontent.com" crossorigin />
+    <link rel="icon" href="assets/img/favicon.png" />
+    <link rel="stylesheet" href="assets/css/style.css?v=20260707-cartconfirm1" />
+    <script src="assets/js/main.js?v=20260707-secret-safe1" defer></script>
+    <script src="assets/js/menu.js?v=20260707-cart-autoupdate1" defer></script>
+  </head>
+  <body class="order-page">
+    <a class="skip-link" href="#main">Lewati ke konten</a>
+
+    <header class="site-header" id="top">
+      <div class="nav-shell">
+        <a class="brand" href="index.html#beranda" aria-label="Ampera Pak Jenggot, kembali ke beranda">
+          <img src="assets/img/logo-apj.png" alt="Logo APJ" class="brand-logo" width="54" height="64" decoding="async" fetchpriority="high" />
+          <span class="brand-copy">
+            <strong>Ampera Pak Jenggot</strong>
+            <small>Cita Rasa Minang di Kota Batu</small>
+          </span>
+        </a>
+
+        <nav class="desktop-nav" aria-label="Navigasi utama">
+          <a href="index.html#beranda">Beranda</a>
+          <a href="menu.html">Menu</a>
+          <a href="index.html#outlet">Lokasi</a>
+          <a href="index.html#cerita">About</a>
+          <a href="index.html#kontak">Kontak</a>
+        </nav>
+
+        <div class="header-actions">
+          <a class="btn btn-outline btn-small" href="index.html#outlet">Outlet</a>
+          <a class="btn btn-gold btn-small" href="#order-menu-grid">Pesan Sekarang</a>
+        </div>
+
+        <button class="mobile-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Buka menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+
+      <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+        <nav aria-label="Navigasi mobile">
+          <a href="index.html#beranda">Beranda</a>
+          <a href="menu.html">Menu</a>
+          <a href="index.html#outlet">Lokasi</a>
+          <a href="index.html#cerita">About</a>
+          <a href="index.html#kontak">Kontak</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="order-hero">
+        <div class="container order-hero-inner">
+          <p class="section-kicker light">Menu Online APJ</p>
+          <h1>Pilih menu, checkout lewat WhatsApp.</h1>
+          <p>
+            Pesanan dari website akan diteruskan ke admin APJ. Pilih menu favorit, masukkan jumlah, lalu kirim pesanan lewat WhatsApp untuk dikonfirmasi.
+          </p>
+          <div class="custom-order-hero-actions">
+            <a class="btn btn-cream" href="pesanan-acara.html">Pesanan Kotak / Acara</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="order-section" aria-labelledby="online-menu-title">
+        <div class="container">
+          <div class="order-toolbar">
+            <div>
+              <h2 id="online-menu-title">Daftar Menu</h2>
+              <p id="menu-load-status" class="menu-load-status" data-type="info">Memuat menu APJ...</p>
+            </div>
+            <label class="menu-search-label">
+              <span class="sr-only">Cari menu</span>
+              <input id="menu-search" type="search" placeholder="Cari rendang, ayam, minuman..." autocomplete="off" />
+            </label>
+          </div>
+
+          <div class="menu-filter-scroll" id="menu-category-list" aria-label="Filter kategori menu"></div>
+
+          <div class="order-layout">
+            <div id="order-menu-grid" class="order-menu-grid" aria-live="polite">
+              <div class="menu-empty-state">Memuat menu...</div>
+            </div>
+
+            <aside class="cart-panel" id="cart-panel" aria-label="Keranjang pesanan">
+              <div class="cart-header">
+                <div>
+                  <p class="section-kicker">Keranjang</p>
+                  <h2>Pesananmu</h2>
+                </div>
+                <button class="cart-close" id="close-cart" type="button" aria-label="Tutup keranjang">×</button>
+              </div>
+
+              <div id="cart-empty" class="cart-empty">Belum ada menu dipilih. Tambahkan dulu, biar dapur bisa bergerak.</div>
+              <div id="cart-items" class="cart-items"></div>
+
+              <div class="checkout-fields">
+                <label>
+                  Nama
+                  <input id="customer-name" type="text" placeholder="Nama pemesan" />
+                </label>
+                <label>
+                  Metode
+                  <select id="order-method">
+                    <option value="Ambil sendiri">Ambil sendiri</option>
+                    <option value="Delivery">Delivery</option>
+                  </select>
+                </label>
+                <label>
+                  Catatan
+                  <textarea id="order-note" rows="3" placeholder="Contoh: sambal dipisah, ambil jam 12.00"></textarea>
+                </label>
+              </div>
+
+              <div class="cart-summary">
+                <span>Total (<b id="cart-count">0</b> item)</span>
+                <strong id="cart-total">Rp 0</strong>
+              </div>
+
+              <button id="checkout-wa" class="btn btn-gold checkout-btn" type="button" disabled>Checkout via WhatsApp</button>
+              <button id="clear-cart" class="clear-cart-btn" type="button">Kosongkan Keranjang</button>
+              <p class="checkout-note">Total bersifat estimasi dan akan dikonfirmasi oleh admin APJ.</p>
+            </aside>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div class="cart-backdrop" id="cart-backdrop" aria-hidden="true"></div>
+    <div class="cart-mobile-bar" aria-label="Ringkasan keranjang mobile">
+      <div>
+        <span><b id="cart-count-mobile">0</b> item</span>
+        <strong id="cart-total-mobile">Rp 0</strong>
+      </div>
+      <button id="open-cart" class="btn btn-gold btn-small" type="button">Keranjang</button>
+    </div>
+
+    <footer class="site-footer" id="kontak">
+      <div class="container footer-grid">
+        <div>
+          <h2>Ampera Pak Jenggot</h2>
+          <p>Masakan Padang untuk makan harian, nasi bungkus, dan pesanan rombongan. Menjaga rasa Minang sejak 2006.</p>
+        </div>
+        <div>
+          <h3>Menu</h3>
+          <a href="menu.html">Menu Online</a>
+          <a href="pesanan-acara.html">Nasi Kotak</a>
+          <a href="index.html#outlet">Outlet</a>
+        </div>
+        <div>
+          <h3>Informasi</h3>
+          <a href="index.html#cerita">Cerita APJ</a>
+          <a href="index.html#kontak">Kontak</a>
+          <a href="admin-menu.html">Admin Menu</a>
+        </div>
+        <div>
+          <h3>Kontak</h3>
+          <p>WhatsApp: 08xx-xxxx-xxxx</p>
+          <p>Email: info@amperapakjenggot.com</p>
+          <p>Indonesia</p>
+        </div>
+      </div>
+      <div class="container footer-bottom">
+        <p>&copy; 2026 Ampera Pak Jenggot Semua hak dilindungi.</p>
+      </div>
+    </footer>
+  </body>
+</html>

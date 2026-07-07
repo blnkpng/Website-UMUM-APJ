@@ -18,15 +18,15 @@
     <link rel="preconnect" href="https://script.googleusercontent.com" crossorigin />
     <link rel="preload" as="image" href="assets/img/rumah-gadang-hero.webp" type="image/webp" fetchpriority="high" />
     <link rel="icon" href="assets/img/favicon.png" />
-    <link rel="stylesheet" href="assets/css/style.css?v=20260707-opt1" />
-    <script src="assets/js/main.js?v=20260707-cache2" defer></script>
+    <link rel="stylesheet" href="assets/css/style.css?v=20260707-story-group1" />
+    <script src="assets/js/main.js?v=20260707-story-group1" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Lewati ke konten</a>
 
     <header class="site-header" id="top">
       <div class="nav-shell">
-        <a class="brand" href="#beranda" aria-label="Ampera Pak Jenggot, kembali ke beranda">
+        <a class="brand" href="index.html#beranda" aria-label="Ampera Pak Jenggot, kembali ke beranda">
           <img src="assets/img/logo-apj.png" alt="Logo APJ" class="brand-logo" width="54" height="64" decoding="async" fetchpriority="high" />
           <span class="brand-copy">
             <strong>Ampera Pak Jenggot</strong>
@@ -35,17 +35,16 @@
         </a>
 
         <nav class="desktop-nav" aria-label="Navigasi utama">
-          <a href="#beranda">Beranda</a>
-          <a href="#menu">Menu</a>
-          <a href="#cerita">Cerita APJ</a>
-          <a href="#outlet">Outlet</a>
-          <a href="#nasi-kotak">Nasi Kotak</a>
-          <a href="#kontak">Kontak</a>
+          <a href="index.html#beranda">Beranda</a>
+          <a href="menu.html">Menu</a>
+          <a href="index.html#outlet">Lokasi</a>
+          <a href="index.html#cerita">About</a>
+          <a href="index.html#kontak">Kontak</a>
         </nav>
 
         <div class="header-actions">
-          <a class="btn btn-outline btn-small" href="#menu">Lihat Menu</a>
-          <a class="btn btn-gold btn-small" href="https://wa.me/6280000000000?text=Halo%20APJ%2C%20saya%20mau%20pesan." data-link-key="whatsapp">Pesan Sekarang</a>
+          <a class="btn btn-outline btn-small" href="menu.html" data-link-key="menu">Menu</a>
+          <a class="btn btn-gold btn-small" href="menu.html" data-link-key="menu">Pesan Sekarang</a>
         </div>
 
         <button class="mobile-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Buka menu">
@@ -57,12 +56,11 @@
 
       <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
         <nav aria-label="Navigasi mobile">
-          <a href="#beranda">Beranda</a>
-          <a href="#menu">Menu</a>
-          <a href="#cerita">Cerita APJ</a>
-          <a href="#outlet">Outlet</a>
-          <a href="#nasi-kotak">Nasi Kotak</a>
-          <a href="#kontak">Kontak</a>
+          <a href="index.html#beranda">Beranda</a>
+          <a href="menu.html">Menu</a>
+          <a href="index.html#outlet">Lokasi</a>
+          <a href="index.html#cerita">About</a>
+          <a href="index.html#kontak">Kontak</a>
         </nav>
       </div>
     </header>
@@ -92,17 +90,17 @@
               </span>
               <span class="qa-text">Lokasi Outlet</span>
             </a>
-            <a class="animate__animated animate__pulse pulse-once qa-menu" href="#menu" data-link-key="menu" aria-label="Lihat Menu" title="Lihat Menu">
+            <a class="animate__animated animate__pulse pulse-once qa-menu" href="menu.html" data-link-key="menu" data-fixed-label="true" aria-label="Pesan Sekarang" title="Pesan Sekarang">
               <span class="qa-icon" aria-hidden="true">
                 <img class="qa-icon-img" src="assets/img/icons/icon-menu.png" alt="" width="64" height="64" loading="eager" decoding="async" />
               </span>
-              <span class="qa-text">Lihat Menu</span>
+              <span class="qa-text">Pesan Sekarang</span>
             </a>
-            <a class="animate__animated animate__pulse pulse-once qa-whatsapp" href="https://wa.me/6280000000000?text=Halo%20APJ%2C%20saya%20mau%20pesan." data-link-key="whatsapp" aria-label="Pesan via WhatsApp" title="Pesan via WhatsApp">
+            <a class="animate__animated animate__pulse pulse-once qa-whatsapp" href="pesanan-acara.html" data-link-key="reservation" data-fixed-label="true" aria-label="Pesan / Reservasi" title="Pesan / Reservasi">
               <span class="qa-icon" aria-hidden="true">
                 <img class="qa-icon-img" src="assets/img/icons/icon-whatsapp.png" alt="" width="64" height="64" loading="eager" decoding="async" />
               </span>
-              <span class="qa-text">WhatsApp</span>
+              <span class="qa-text">Pesan / Reservasi</span>
             </a>
             <a class="animate__animated animate__pulse pulse-once qa-gofood" href="https://wa.me/6280000000000?text=Halo%20APJ%2C%20saya%20mau%20tanya%20pesanan%20GoFood." data-link-key="gofood" aria-label="GoFood" title="GoFood">
               <span class="qa-icon" aria-hidden="true">
@@ -129,71 +127,15 @@
       <section class="section menu-section" id="menu" aria-labelledby="menu-title">
         <div class="container">
           <div class="section-heading">
-            <p class="section-kicker">Menu Favorit</p>
-            <h2 id="menu-title">Lauk andalan, nasi hangat, kuah mantap.</h2>
-            <p>Pilih menu favorit Ampera Pak Jenggot untuk makan harian, dibawa pulang, atau dipesan bersama keluarga.</p>
+            <h2 id="menu-title">Sentuhan Tradisi untuk Santapan Keluarga</h2>
+            <p>Hadirkan kualitas masakan rumahan dengan cita rasa bumbu rempah pilihan yang otentik. Temukan santapan favorit Anda dan buat momen makan hari ini lebih berkesan bersama APJ.</p>
           </div>
 
-          <div class="menu-grid">
-            <article class="menu-card">
-              <figure class="menu-photo">
-                <img src="assets/img/signature-dish.jpg" alt="Nasi rendang daging khas Padang." width="640" height="360" loading="lazy" decoding="async" />
-              </figure>
-              <div class="menu-card-body">
-                <span class="badge">Best Seller</span>
-                <h3>Nasi Rendang Daging</h3>
-                <p>Nasi hangat, rendang daging, sayur, sambal, dan kuah khas Padang.</p>
-                <div class="card-footer">
-                  <strong>Mulai Rp ...</strong>
-                  <a href="https://wa.me/6280000000000?text=Halo%20APJ%2C%20saya%20mau%20pesan%20Nasi%20Rendang%20Daging.">Pesan</a>
-                </div>
-              </div>
-            </article>
-
-            <article class="menu-card">
-              <figure class="menu-photo">
-                <img src="assets/img/signature-dish.jpg" alt="Nasi ayam goreng berbumbu dengan sambal." width="640" height="360" loading="lazy" decoding="async" />
-              </figure>
-              <div class="menu-card-body">
-                <span class="badge">Favorit</span>
-                <h3>Nasi Ayam Goreng</h3>
-                <p>Ayam goreng berbumbu, nasi, sayur, sambal, dan kuah pilihan.</p>
-                <div class="card-footer">
-                  <strong>Mulai Rp ...</strong>
-                  <a href="https://wa.me/6280000000000?text=Halo%20APJ%2C%20saya%20mau%20pesan%20Nasi%20Ayam%20Goreng.">Pesan</a>
-                </div>
-              </div>
-            </article>
-
-            <article class="menu-card">
-              <figure class="menu-photo">
-                <img src="assets/img/signature-dish.jpg" alt="Nasi gulai kikil dengan kuah gurih." width="640" height="360" loading="lazy" decoding="async" />
-              </figure>
-              <div class="menu-card-body">
-                <span class="badge">Kuah Mantap</span>
-                <h3>Nasi Gulai Kikil</h3>
-                <p>Kikil empuk dengan kuah gulai gurih untuk santapan yang lebih mantap.</p>
-                <div class="card-footer">
-                  <strong>Mulai Rp ...</strong>
-                  <a href="https://wa.me/6280000000000?text=Halo%20APJ%2C%20saya%20mau%20pesan%20Nasi%20Gulai%20Kikil.">Pesan</a>
-                </div>
-              </div>
-            </article>
-
-            <article class="menu-card">
-              <figure class="menu-photo">
-                <img src="assets/img/signature-dish.jpg" alt="Perkedel kentang sebagai tambahan lauk." width="640" height="360" loading="lazy" decoding="async" />
-              </figure>
-              <div class="menu-card-body">
-                <span class="badge">Tambahan</span>
-                <h3>Perkedel Kentang</h3>
-                <p>Tambahan sederhana yang kecil-kecil tapi sering dicari pelanggan.</p>
-                <div class="card-footer">
-                  <strong>Mulai Rp ...</strong>
-                  <a href="https://wa.me/6280000000000?text=Halo%20APJ%2C%20saya%20mau%20pesan%20Perkedel%20Kentang.">Pesan</a>
-                </div>
-              </div>
-            </article>
+          <div class="menu-grid" id="home-menu-grid" aria-live="polite">
+            <div class="home-menu-loader" role="status" aria-label="Memuat pilihan menu">
+              <div class="loader">Memuat</div>
+              <p>Menyiapkan pilihan menu...</p>
+            </div>
           </div>
         </div>
       </section>
@@ -202,7 +144,6 @@
         <div class="story-pattern" aria-hidden="true"></div>
         <div class="container story-inner">
           <div class="story-copy">
-            <p class="section-kicker light">Cerita Ampera Pak Jenggot</p>
             <h2 id="story-title">Dari dapur sederhana, tumbuh bersama pelanggan setia.</h2>
             <p>
               Ampera Pak Jenggot lahir dari keyakinan sederhana: makanan yang baik harus punya rasa, kehangatan, dan
@@ -241,7 +182,8 @@
       </section>
 
       <section class="group-section" id="nasi-kotak" aria-labelledby="group-title">
-        <div class="container group-inner">
+        <div class="container">
+          <div class="group-inner group-card-panel">
           <div class="group-copy">
             <p class="section-kicker light">Nasi Kotak &amp; Rombongan</p>
             <h2 id="group-title">Pesanan acara lebih praktis, rasa tetap mantap.</h2>
@@ -249,7 +191,7 @@
               Untuk kantor, keluarga, pengajian, rapat, kegiatan sekolah, wisata, dan rombongan. Pilih lauk, tentukan
               jumlah, lalu tim APJ bantu proses pesanannya.
             </p>
-            <a class="btn btn-cream" href="https://wa.me/6280000000000?text=Halo%20APJ%2C%20saya%20mau%20tanya%20Nasi%20Kotak.">Tanya Nasi Kotak</a>
+            <a class="btn btn-cream" href="pesanan-acara.html">Buat Pesanan Acara</a>
           </div>
 
           <div class="feature-grid">
@@ -278,6 +220,7 @@
               <p>Praktis untuk rombongan wisata dan kegiatan bersama</p>
             </article>
           </div>
+        </div>
         </div>
       </section>
 
@@ -353,7 +296,7 @@
           <h2 id="final-title">Sudah kebayang lauknya?</h2>
           <p>Langsung pesan, biar nasi masih hangat dan kuah masih wangi.</p>
           <div class="final-actions">
-            <a class="btn btn-cream" href="https://wa.me/6280000000000?text=Halo%20APJ%2C%20saya%20mau%20pesan." data-link-key="whatsapp">Pesan via WhatsApp</a>
+            <a class="btn btn-cream" href="menu.html" data-link-key="menu">Pesan Sekarang</a>
             <a class="btn btn-ghost" href="#outlet">Lihat Outlet</a>
           </div>
         </div>
@@ -368,8 +311,8 @@
         </div>
         <div>
           <h3>Menu</h3>
-          <a href="#menu">Menu Favorit</a>
-          <a href="#nasi-kotak">Nasi Kotak</a>
+          <a href="menu.html">Menu Online</a>
+          <a href="pesanan-acara.html">Nasi Kotak</a>
           <a href="#outlet">Outlet</a>
         </div>
         <div>

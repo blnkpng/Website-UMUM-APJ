@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Menu | Ampera Pak Jenggot</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lato:wght@400;700;900&family=Merriweather:wght@700;900&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://script.google.com" />
+    <link rel="preconnect" href="https://script.googleusercontent.com" crossorigin />
+    <link rel="icon" href="assets/img/favicon.png" />
+    <link rel="stylesheet" href="assets/css/style.css?v=20260707-photo2" />
+    <script src="assets/js/admin-menu.js?v=20260707-secure-autoupdate1" defer></script>
+  </head>
+  <body class="admin-page">
+    <main class="admin-shell" id="main">
+      <section class="admin-card" id="admin-gate">
+        <img src="assets/img/logo-apj.png" alt="Logo APJ" class="admin-logo" width="74" height="88" />
+        <p class="section-kicker">Admin APJ</p>
+        <h1>Atur Ketersediaan Menu</h1>
+        <p class="admin-muted">Masukkan PIN admin untuk mengubah status menu tersedia atau habis. Data akan tersimpan ke Google Sheet.</p>
+        <form id="admin-login-form" class="admin-login-form">
+          <label>
+            PIN Admin
+            <input id="admin-pin" type="password" inputmode="numeric" placeholder="Masukkan PIN" autocomplete="off" required />
+          </label>
+          <button class="btn btn-gold" type="submit">Masuk</button>
+        </form>
+        <p class="admin-hint">Gunakan PIN internal APJ. Jangan bagikan PIN kepada customer.</p>
+      </section>
+
+      <section class="admin-app" id="admin-app" hidden>
+        <div class="admin-topbar">
+          <div>
+            <p class="section-kicker">Admin Menu</p>
+            <h1>Stok Menu Online</h1>
+            <p id="admin-status" class="menu-load-status" data-type="info"></p>
+          </div>
+          <div class="admin-actions" aria-label="Aksi admin menu">
+            <button id="admin-add-item" class="btn btn-gold btn-small" type="button">Tambah Item</button>
+            <a class="btn btn-gold btn-small" href="menu.html">Lihat Web</a>
+            <button id="admin-logout" class="btn btn-danger btn-small" type="button">Keluar</button>
+            <button id="admin-refresh" class="btn btn-gold btn-small" type="button">Refresh</button>
+          </div>
+        </div>
+
+        <div class="admin-stats">
+          <article>
+            <span>Total Menu</span>
+            <strong id="admin-total">0</strong>
+          </article>
+          <article>
+            <span>Tersedia</span>
+            <strong id="admin-available">0</strong>
+          </article>
+          <article>
+            <span>Habis</span>
+            <strong id="admin-empty">0</strong>
+          </article>
+        </div>
+
+        <div class="admin-controls">
+          <label class="menu-search-label">
+            <span class="sr-only">Cari menu</span>
+            <input id="admin-search" type="search" placeholder="Cari kode atau nama menu..." autocomplete="off" />
+          </label>
+          <div class="menu-filter-scroll" id="admin-category-list" aria-label="Filter kategori admin"></div>
+        </div>
+
+        <div id="admin-menu-list" class="admin-menu-list" aria-live="polite">
+          <div class="menu-empty-state">Memuat data menu...</div>
+        </div>
+      </section>
+
+      <section class="admin-item-modal" id="admin-item-modal" hidden aria-label="Form item menu">
+        <div class="admin-item-backdrop" data-close-add-item></div>
+        <form id="admin-add-form" class="admin-item-card">
+          <div class="admin-item-head">
+            <div>
+              <p id="admin-item-kicker" class="section-kicker">Menu Baru</p>
+              <h2 id="admin-item-title">Tambah Item</h2>
+            </div>
+            <button class="admin-item-close" type="button" data-close-add-item aria-label="Tutup form item">×</button>
+          </div>
+
+          <div class="admin-item-grid">
+            <label class="admin-name-field">
+              Nama Menu
+              <input id="add-nama" name="nama" type="text" placeholder="Contoh: Nasi Rendang Daging" required />
+            </label>
+            <label class="admin-category-field">
+              Kategori
+              <input id="add-kategori" name="kategori" type="text" list="admin-category-options" placeholder="Contoh: Paket Nasi" required />
+              <datalist id="admin-category-options"></datalist>
+            </label>
+            <label class="admin-price-field">
+              Harga Online
+              <input id="add-harga" name="harga" type="text" inputmode="numeric" placeholder="Rp.25.000" autocomplete="off" required />
+            </label>
+            <label class="admin-photo-field">
+              Foto Menu <span class="admin-optional">opsional</span>
+              <input id="add-foto-file" name="fotoFile" type="file" accept="image/*" />
+              <span class="admin-upload-note">Upload JPG/PNG/WebP. Foto otomatis di-crop 4:3 agar rapi di website.</span>
+              <div class="admin-crop-tools" aria-label="Posisi crop foto">
+                <span>Posisi crop</span>
+                <button type="button" class="is-active" data-crop-position="center">Tengah</button>
+                <button type="button" data-crop-position="top">Atas</button>
+                <button type="button" data-crop-position="bottom">Bawah</button>
+              </div>
+              <div id="add-foto-frame" class="admin-photo-frame is-empty" aria-live="polite">
+                <img id="add-foto-preview" class="admin-photo-preview" alt="Preview crop foto menu" hidden />
+                <span id="add-foto-placeholder" class="admin-photo-placeholder">Preview crop foto akan tampil di sini</span>
+              </div>
+            </label>
+            <label class="admin-desc-field">
+              Deskripsi <span class="admin-optional">opsional</span>
+              <textarea id="add-deskripsi" name="deskripsi" rows="3" placeholder="Deskripsi singkat menu"></textarea>
+            </label>
+          </div>
+
+          <div class="admin-item-actions">
+            <button class="btn btn-danger btn-small" type="button" data-close-add-item>Batal</button>
+            <button id="admin-add-submit" class="btn btn-gold btn-small" type="submit">Simpan Item</button>
+          </div>
+          <p id="admin-add-status" class="menu-load-status" data-type="info"></p>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>
