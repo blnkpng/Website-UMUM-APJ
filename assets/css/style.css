@@ -404,7 +404,10 @@ select {
   background:
     linear-gradient(180deg, rgba(74, 13, 10, 0.52), rgba(74, 13, 10, 0.60)),
     linear-gradient(90deg, rgba(74, 13, 10, 0.78), rgba(94, 20, 17, 0.58) 48%, rgba(143, 31, 27, 0.68)),
-    url("../img/rumah-gadang-hero.png") center 58% / cover no-repeat,
+    image-set(
+      url("../img/rumah-gadang-hero.webp") type("image/webp"),
+      url("../img/rumah-gadang-hero.jpg") type("image/jpeg")
+    ) center 58% / cover no-repeat,
     var(--deep-maroon);
 }
 
@@ -1792,6 +1795,35 @@ blockquote {
   .floating-wa .wa-svg {
     width: 22px;
     height: 22px;
+  }
+}
+
+
+
+/* Performance polish: load smaller hero image on narrow screens and defer below-the-fold rendering */
+@media (max-width: 700px) {
+  .hero {
+    background:
+      linear-gradient(180deg, rgba(74, 13, 10, 0.52), rgba(74, 13, 10, 0.60)),
+      linear-gradient(90deg, rgba(74, 13, 10, 0.78), rgba(94, 20, 17, 0.58) 48%, rgba(143, 31, 27, 0.68)),
+      image-set(
+        url("../img/rumah-gadang-hero-mobile.webp") type("image/webp"),
+        url("../img/rumah-gadang-hero-mobile.jpg") type("image/jpeg")
+      ) center 56% / cover no-repeat,
+      var(--deep-maroon);
+  }
+}
+
+@supports (content-visibility: auto) {
+  .menu-section,
+  .story-section,
+  .group-section,
+  .outlet-section,
+  .testimonials,
+  .final-cta,
+  .site-footer {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 720px;
   }
 }
 
