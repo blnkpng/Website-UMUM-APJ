@@ -11,9 +11,9 @@
     <link rel="preconnect" href="https://script.google.com" />
     <link rel="preconnect" href="https://script.googleusercontent.com" crossorigin />
     <link rel="icon" href="assets/img/favicon.png" />
-    <link rel="stylesheet" href="assets/css/style.css?v=20260707-cartconfirm1" />
-    <script src="assets/js/main.js?v=20260707-secret-safe1" defer></script>
-    <script src="assets/js/menu.js?v=20260707-cart-autoupdate1" defer></script>
+    <link rel="stylesheet" href="assets/css/style.css?v=20260711-shareloc-auto1" />
+    <script src="assets/js/main.js?v=20260711-admin-pin-gate1" defer></script>
+    <script src="assets/js/menu.js?v=20260711-shareloc-auto1" defer></script>
   </head>
   <body class="order-page">
     <a class="skip-link" href="#main">Lewati ke konten</a>
@@ -117,6 +117,14 @@
                     <option value="Delivery">Delivery</option>
                   </select>
                 </label>
+                <label id="order-location-field">
+                  <span id="order-location-label">Alamat Outlet</span>
+                  <input id="order-location" type="text" value="Outlet Lahor" readonly />
+                </label>
+                <div class="shareloc-actions" id="shareloc-actions" hidden>
+                  <button id="use-current-location" class="shareloc-btn" type="button">Ambil Shareloc Otomatis</button>
+                  <p id="order-location-status" class="shareloc-status" aria-live="polite"></p>
+                </div>
                 <label>
                   Catatan
                   <textarea id="order-note" rows="3" placeholder="Contoh: sambal dipisah, ambil jam 12.00"></textarea>

@@ -119,122 +119,15 @@ function loadDynamicLinks() {
 loadDynamicLinks();
 
 
-/* Secret admin access: klik logo APJ 5 kali cepat, lalu masukkan PIN */
-const APJ_SECRET_ADMIN_PIN_KEY = "apj_menu_admin_pin_v1";
-const APJ_SECRET_ADMIN_SESSION_KEY = "apj_menu_admin_pin_session_v1";
+/* Secret admin access: klik logo APJ 5 kali cepat untuk masuk halaman admin */
 const APJ_SECRET_ADMIN_TARGET = "admin-menu.html";
+const APJ_ADMIN_PIN_STORAGE_KEYS = ["apj_menu_admin_pin_v1", "apj_menu_admin_pin_session_v1"];
 
-function apjSecretJsonp(action, params = {}) {
-  return new Promise((resolve, reject) => {
-    const callbackName = `apjSecretCallback_${Date.now()}_${Math.random().toString(16).slice(2)}`;
-    const script = document.createElement("script");
-    let done = false;
-
-    const finish = (fn, value) => {
-      if (done) return;
-      done = true;
-      clearTimeout(timer);
-      script.remove();
-      delete window[callbackName];
-      fn(value);
-    };
-
-    const query = new URLSearchParams({ action, callback: callbackName, t: String(Date.now()), ...params });
-    const timer = setTimeout(() => finish(reject, new Error("Timeout validasi PIN admin")), 10000);
-
-    window[callbackName] = (data) => finish(resolve, data);
-    script.async = true;
-    script.src = `${APJ_LINK_API_URL}?${query.toString()}`;
-    script.onerror = () => finish(reject, new Error("Gagal menghubungi server APJ"));
-    document.head.appendChild(script);
+function clearStoredAdminPins() {
+  APJ_ADMIN_PIN_STORAGE_KEYS.forEach((key) => {
+    try { localStorage.removeItem(key); } catch (_) {}
+    try { sessionStorage.removeItem(key); } catch (_) {}
   });
-}
-
-function ensureSecretAdminModal() {
-  let modal = document.querySelector("#apj-secret-admin-modal");
-  if (modal) return modal;
-
-  modal = document.createElement("div");
-  modal.className = "secret-admin-modal";
-  modal.id = "apj-secret-admin-modal";
-  modal.setAttribute("aria-hidden", "true");
-  modal.innerHTML = `
-    <div class="secret-admin-backdrop" data-secret-close></div>
-    <div class="secret-admin-card" role="dialog" aria-modal="true" aria-labelledby="secret-admin-title">
-      <button class="secret-admin-close" type="button" aria-label="Tutup" data-secret-close>×</button>
-      <p class="secret-admin-kicker">Admin Menu</p>
-      <h2 id="secret-admin-title">Masukkan PIN</h2>
-      <p class="secret-admin-copy">Akses khusus untuk kasir/admin APJ.</p>
-      <form id="secret-admin-form" class="secret-admin-form">
-        <input id="secret-admin-pin" type="password" inputmode="numeric" autocomplete="off" placeholder="PIN Admin" aria-label="PIN Admin" required />
-        <button id="secret-admin-submit" class="btn btn-gold" type="submit">Masuk Admin</button>
-      </form>
-      <p id="secret-admin-status" class="secret-admin-status" aria-live="polite"></p>
-    </div>
-  `;
-  document.body.appendChild(modal);
-
-  modal.querySelectorAll("[data-secret-close]").forEach((btn) => {
-    btn.addEventListener("click", () => closeSecretAdminModal());
-  });
-
-  modal.querySelector("#secret-admin-form").addEventListener("submit", async (event) => {
-    event.preventDefault();
-    const pinInput = modal.querySelector("#secret-admin-pin");
-    const submit = modal.querySelector("#secret-admin-submit");
-    const status = modal.querySelector("#secret-admin-status");
-    const pin = pinInput.value.trim();
-    if (!pin) return;
-
-    submit.disabled = true;
-    status.textContent = "Memeriksa PIN...";
-    status.classList.remove("is-error", "is-success");
-
-    try {
-      const data = await apjSecretJsonp("admin_menu", { pin });
-      if (!data || !data.ok) throw new Error(data && data.message ? data.message : "PIN admin salah.");
-      try { sessionStorage.setItem(APJ_SECRET_ADMIN_SESSION_KEY, pin); } catch (_) {}
-      try { localStorage.removeItem(APJ_SECRET_ADMIN_PIN_KEY); } catch (_) {}
-      status.textContent = "PIN benar. Membuka Admin Menu...";
-      status.classList.add("is-success");
-      window.location.href = APJ_SECRET_ADMIN_TARGET;
-    } catch (error) {
-      status.textContent = error.message || "PIN admin salah atau server belum siap.";
-      status.classList.add("is-error");
-      submit.disabled = false;
-      pinInput.focus();
-      pinInput.select();
-    }
-  });
-
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && modal.classList.contains("is-open")) {
-      closeSecretAdminModal();
-    }
-  });
-
-  return modal;
-}
-
-function openSecretAdminModal() {
-  const modal = ensureSecretAdminModal();
-  modal.classList.add("is-open");
-  modal.setAttribute("aria-hidden", "false");
-  document.body.classList.add("secret-admin-open");
-  const input = modal.querySelector("#secret-admin-pin");
-  const status = modal.querySelector("#secret-admin-status");
-  status.textContent = "";
-  input.value = "";
-  try { localStorage.removeItem(APJ_SECRET_ADMIN_PIN_KEY); } catch (_) {}
-  setTimeout(() => input.focus(), 30);
-}
-
-function closeSecretAdminModal() {
-  const modal = document.querySelector("#apj-secret-admin-modal");
-  if (!modal) return;
-  modal.classList.remove("is-open");
-  modal.setAttribute("aria-hidden", "true");
-  document.body.classList.remove("secret-admin-open");
 }
 
 function initSecretAdminAccess() {
@@ -257,7 +150,8 @@ function initSecretAdminAccess() {
 
       if (clicks >= 5) {
         clicks = 0;
-        openSecretAdminModal();
+        clearStoredAdminPins();
+        window.location.href = APJ_SECRET_ADMIN_TARGET;
         return;
       }
 

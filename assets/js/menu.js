@@ -3,6 +3,7 @@ const APJ_CART_KEY = "apj_online_cart_v1";
 const APJ_MENU_TIMEOUT = 6000;
 const APJ_MENU_POLL_MS = 5000;
 const APJ_MENU_UPDATE_SIGNAL_KEY = "apj_menu_update_signal_v1";
+const APJ_LAHOR_OUTLET_ADDRESS = "Outlet Lahor";
 
 let menuItems = [];
 let categories = [];
@@ -28,6 +29,12 @@ const els = {
   note: document.querySelector("#order-note"),
   customerName: document.querySelector("#customer-name"),
   orderMethod: document.querySelector("#order-method"),
+  orderLocation: document.querySelector("#order-location"),
+  orderLocationLabel: document.querySelector("#order-location-label"),
+  orderLocationField: document.querySelector("#order-location-field"),
+  sharelocActions: document.querySelector("#shareloc-actions"),
+  useCurrentLocation: document.querySelector("#use-current-location"),
+  orderLocationStatus: document.querySelector("#order-location-status"),
   openCart: document.querySelector("#open-cart"),
   closeCart: document.querySelector("#close-cart"),
   cartPanel: document.querySelector("#cart-panel"),
@@ -180,7 +187,16 @@ function renderMenuCard(item) {
 
 function renderQtyControl(kode, qty) {
   if (qty <= 0) {
-    return `<button class="add-cart-btn" type="button" data-cart-add="${escapeAttr(kode)}">Tambah</button>`;
+    return `
+      <span class="order-action-wrap">
+        <button class="add-cart-btn order-add-btn" type="button" data-cart-add="${escapeAttr(kode)}">Tambah</button>
+        <span class="qty-control order-mobile-stepper" aria-label="Jumlah pesanan">
+          <button type="button" data-cart-minus="${escapeAttr(kode)}" aria-label="Kurangi" disabled>−</button>
+          <span>0</span>
+          <button type="button" data-cart-add="${escapeAttr(kode)}" aria-label="Tambah">+</button>
+        </span>
+      </span>
+    `;
   }
 
   return `
@@ -244,6 +260,97 @@ function clearCart() {
   renderCart();
 }
 
+function isDeliveryMethod() {
+  return els.orderMethod && els.orderMethod.value === "Delivery";
+}
+
+function setSharelocStatus(message, type = "info") {
+  if (!els.orderLocationStatus) return;
+  els.orderLocationStatus.textContent = message || "";
+  els.orderLocationStatus.dataset.type = type;
+}
+
+function setSharelocLoading(loading) {
+  if (!els.useCurrentLocation) return;
+  els.useCurrentLocation.disabled = loading;
+  els.useCurrentLocation.textContent = loading ? "Mengambil lokasi..." : "Ambil Shareloc Otomatis";
+}
+
+function updateOrderLocationField() {
+  if (!els.orderLocation) return;
+
+  if (isDeliveryMethod()) {
+    if (els.orderLocationLabel) els.orderLocationLabel.textContent = "Shareloc Delivery";
+    if (els.sharelocActions) els.sharelocActions.hidden = false;
+    els.orderLocation.readOnly = true;
+    els.orderLocation.placeholder = "Tekan tombol Ambil Shareloc Otomatis";
+    if (els.orderLocation.value.trim() === APJ_LAHOR_OUTLET_ADDRESS) {
+      els.orderLocation.value = "";
+    }
+    if (!els.orderLocation.value.trim()) {
+      setSharelocStatus("Tekan tombol untuk mengambil lokasi customer otomatis.", "info");
+    }
+    return;
+  }
+
+  if (els.orderLocationLabel) els.orderLocationLabel.textContent = "Alamat Outlet";
+  if (els.sharelocActions) els.sharelocActions.hidden = true;
+  setSharelocStatus("", "info");
+  els.orderLocation.readOnly = true;
+  els.orderLocation.placeholder = "Outlet Lahor";
+  els.orderLocation.value = APJ_LAHOR_OUTLET_ADDRESS;
+}
+
+function getOrderLocationLine() {
+  const value = els.orderLocation && els.orderLocation.value.trim() ? els.orderLocation.value.trim() : "";
+  if (isDeliveryMethod()) {
+    return `Shareloc Delivery: ${value}`;
+  }
+  return `Alamat Outlet: ${value || APJ_LAHOR_OUTLET_ADDRESS}`;
+}
+
+function getGeolocationErrorMessage(error) {
+  if (!error) return "Lokasi belum bisa diambil. Coba aktifkan GPS lalu ulangi.";
+  if (error.code === 1) return "Izin lokasi ditolak. Aktifkan izin lokasi browser untuk mengirim shareloc.";
+  if (error.code === 2) return "Lokasi belum ditemukan. Pastikan GPS aktif lalu coba lagi.";
+  if (error.code === 3) return "Pengambilan lokasi terlalu lama. Coba tekan tombol lagi.";
+  return "Lokasi belum bisa diambil. Coba aktifkan GPS lalu ulangi.";
+}
+
+function useCurrentLocation() {
+  if (!isDeliveryMethod()) return;
+
+  if (!navigator.geolocation) {
+    setSharelocStatus("Browser ini belum mendukung ambil lokasi otomatis.", "error");
+    return;
+  }
+
+  setSharelocLoading(true);
+  setSharelocStatus("Mohon izinkan akses lokasi di browser.", "info");
+
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      const lat = position.coords.latitude.toFixed(6);
+      const lng = position.coords.longitude.toFixed(6);
+      const mapUrl = `https://maps.google.com/?q=${lat},${lng}`;
+      const accuracy = position.coords.accuracy ? Math.round(position.coords.accuracy) : 0;
+
+      if (els.orderLocation) els.orderLocation.value = mapUrl;
+      setSharelocStatus(accuracy ? `Shareloc berhasil diambil. Akurasi sekitar ${accuracy} meter.` : "Shareloc berhasil diambil.");
+      setSharelocLoading(false);
+    },
+    (error) => {
+      setSharelocStatus(getGeolocationErrorMessage(error), "error");
+      setSharelocLoading(false);
+    },
+    {
+      enableHighAccuracy: true,
+      timeout: 15000,
+      maximumAge: 0
+    }
+  );
+}
+
 function buildCheckoutText() {
   const entries = cartEntries();
   const total = entries.reduce((sum, entry) => sum + (Number(entry.item.harga) || 0) * entry.qty, 0);
@@ -257,18 +364,20 @@ function buildCheckoutText() {
   const note = els.note && els.note.value.trim() ? els.note.value.trim() : "";
 
   return [
-    "Halo Admin APJ, saya mau pesan dari website:",
+    "Halo Admin APJ 👋🏻",
     "",
+    "Pesanan:",
     ...lines,
     "",
-    `Total estimasi: ${formatRupiah(total)}`,
+    "Estimasi Total Pembayaran",
+    formatRupiah(total),
     "",
     `Nama: ${name}`,
     `Metode: ${method}`,
-    "Alamat / Outlet tujuan:",
+    getOrderLocationLine(),
     `Catatan: ${note}`,
     "",
-    "Total bersifat estimasi dan akan dikonfirmasi oleh admin APJ."
+    "*_Total bersifat sementara, akan dikonfirmasi oleh Admin APJ. untuk total dan ketersediannya lauk_*"
   ].join("\n");
 }
 
@@ -290,6 +399,24 @@ function getCheckoutUrl(text) {
 function checkout() {
   const entries = cartEntries();
   if (!entries.length) return;
+
+  if (isDeliveryMethod() && (!els.orderLocation || !els.orderLocation.value.trim())) {
+    showApjConfirm({
+      title: "Ambil shareloc dulu",
+      message: "Untuk pesanan delivery, customer perlu menekan tombol Ambil Shareloc Otomatis agar lokasi Maps ikut terkirim ke admin APJ.",
+      primaryText: "Ambil Shareloc",
+      secondaryText: "Batal",
+      primaryClass: "btn-gold",
+      secondaryClass: "btn-outline-modal",
+      onPrimary: () => {
+        openCartPanel(true);
+        setTimeout(() => {
+          if (els.useCurrentLocation) els.useCurrentLocation.focus();
+        }, 80);
+      }
+    });
+    return;
+  }
 
   const totalQty = entries.reduce((sum, entry) => sum + entry.qty, 0);
   const total = entries.reduce((sum, entry) => sum + (Number(entry.item.harga) || 0) * entry.qty, 0);
@@ -584,6 +711,8 @@ document.addEventListener("click", (event) => {
 });
 
 if (els.checkout) els.checkout.addEventListener("click", checkout);
+if (els.orderMethod) els.orderMethod.addEventListener("change", updateOrderLocationField);
+if (els.useCurrentLocation) els.useCurrentLocation.addEventListener("click", useCurrentLocation);
 if (els.clearCart) els.clearCart.addEventListener("click", () => {
   showApjConfirm({
     title: "Kosongkan keranjang?",
@@ -606,6 +735,7 @@ window.addEventListener("beforeunload", (event) => {
 });
 
 initMenu().then(() => {
+  updateOrderLocationField();
   maybeShowSavedCartPrompt();
   initMenuAutoRefresh();
 });

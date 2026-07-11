@@ -2,7 +2,7 @@ const APJ_ADMIN_API_URL = "https://script.google.com/macros/s/AKfycbwJxEp0UdTH1c
 const APJ_ADMIN_PIN_KEY = "apj_menu_admin_pin_v1";
 const APJ_ADMIN_TIMEOUT = 7000;
 
-let adminPin = localStorage.getItem(APJ_ADMIN_PIN_KEY) || "";
+let adminPin = "";
 let adminItems = [];
 let adminCategory = "Semua";
 let adminSearch = "";
@@ -12,6 +12,8 @@ const adminEls = {
   app: document.querySelector("#admin-app"),
   form: document.querySelector("#admin-login-form"),
   pin: document.querySelector("#admin-pin"),
+  loginStatus: document.querySelector("#admin-login-status"),
+  loginSubmit: document.querySelector("#admin-login-form button[type='submit']"),
   logout: document.querySelector("#admin-logout"),
   refresh: document.querySelector("#admin-refresh"),
   status: document.querySelector("#admin-status"),
@@ -53,6 +55,17 @@ function setAdminStatus(message, type = "info") {
   if (!adminEls.status) return;
   adminEls.status.textContent = message || "";
   adminEls.status.dataset.type = type;
+}
+
+function setLoginStatus(message, type = "info") {
+  if (!adminEls.loginStatus) return;
+  adminEls.loginStatus.textContent = message || "";
+  adminEls.loginStatus.dataset.type = type;
+}
+
+function setLoginLoading(loading) {
+  if (adminEls.loginSubmit) adminEls.loginSubmit.disabled = loading;
+  if (adminEls.pin) adminEls.pin.disabled = loading;
 }
 
 function showApp(loggedIn) {
@@ -117,14 +130,22 @@ function renderAdminList() {
   `).join("");
 }
 
-async function loadAdminMenu() {
+async function loadAdminMenu(options = {}) {
+  const fromLogin = options.fromLogin === true;
+  const alreadyInApp = adminEls.app && !adminEls.app.hidden;
+
   if (!adminPin) {
     showApp(false);
     return;
   }
 
-  showApp(true);
-  setAdminStatus("Memuat data menu...", "info");
+  if (fromLogin) {
+    showApp(false);
+    setLoginStatus("Memeriksa PIN admin...", "info");
+    setLoginLoading(true);
+  } else {
+    setAdminStatus("Memuat data menu...", "info");
+  }
 
   try {
     const data = await jsonp("admin_menu", { pin: adminPin });
@@ -132,13 +153,32 @@ async function loadAdminMenu() {
     adminItems = data.items || [];
     renderAdminCategories();
     renderAdminList();
+    showApp(true);
+    setLoginStatus("", "info");
     setAdminStatus("Data menu siap. Klik tombol untuk ubah tersedia/habis.", "success");
   } catch (error) {
     console.warn(error);
-    setAdminStatus(error.message || "Gagal memuat admin menu.", "error");
-    localStorage.removeItem(APJ_ADMIN_PIN_KEY);
+    const message = error.message || "PIN admin salah atau server belum siap.";
+    try { localStorage.removeItem(APJ_ADMIN_PIN_KEY); } catch (_) {}
+    try { sessionStorage.removeItem(APJ_ADMIN_PIN_KEY); } catch (_) {}
     adminPin = "";
+
+    if (alreadyInApp && !fromLogin) {
+      setAdminStatus(message, "error");
+      return;
+    }
+
     showApp(false);
+    setAdminStatus("", "info");
+    setLoginStatus(message, "error");
+  } finally {
+    if (fromLogin) {
+      setLoginLoading(false);
+      if (!adminPin && adminEls.gate && !adminEls.gate.hidden && adminEls.pin) {
+        adminEls.pin.focus();
+        adminEls.pin.select();
+      }
+    }
   }
 }
 
@@ -166,18 +206,24 @@ if (adminEls.form) {
   adminEls.form.addEventListener("submit", (event) => {
     event.preventDefault();
     adminPin = adminEls.pin.value.trim();
-    if (!adminPin) return;
-    localStorage.setItem(APJ_ADMIN_PIN_KEY, adminPin);
-    loadAdminMenu();
+    if (!adminPin) {
+      setLoginStatus("PIN wajib diisi.", "error");
+      return;
+    }
+    try { localStorage.removeItem(APJ_ADMIN_PIN_KEY); } catch (_) {}
+    try { sessionStorage.removeItem(APJ_ADMIN_PIN_KEY); } catch (_) {}
+    loadAdminMenu({ fromLogin: true });
   });
 }
 
 if (adminEls.logout) {
   adminEls.logout.addEventListener("click", () => {
-    localStorage.removeItem(APJ_ADMIN_PIN_KEY);
+    try { localStorage.removeItem(APJ_ADMIN_PIN_KEY); } catch (_) {}
+    try { sessionStorage.removeItem(APJ_ADMIN_PIN_KEY); } catch (_) {}
     adminPin = "";
     showApp(false);
     setAdminStatus("", "info");
+    setLoginStatus("", "info");
   });
 }
 
@@ -205,5 +251,4 @@ if (adminEls.list) {
   });
 }
 
-if (adminEls.pin && adminPin) adminEls.pin.value = adminPin;
 loadAdminMenu();

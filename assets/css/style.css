@@ -2242,6 +2242,15 @@ blockquote {
   background: rgba(217, 164, 65, 0.14);
 }
 
+.order-action-wrap {
+  display: inline-flex;
+  align-items: center;
+}
+
+.order-mobile-stepper {
+  display: none;
+}
+
 .qty-control button,
 .cart-line-actions button {
   min-height: 34px;
@@ -2380,6 +2389,53 @@ blockquote {
 
 .checkout-fields textarea {
   resize: vertical;
+}
+
+.checkout-fields input[readonly] {
+  color: var(--deep-maroon);
+  background: rgba(217, 164, 65, 0.12);
+  cursor: default;
+}
+
+.shareloc-actions {
+  display: grid;
+  gap: 6px;
+}
+
+.shareloc-actions[hidden] {
+  display: none;
+}
+
+.shareloc-btn {
+  min-height: 40px;
+  border: 1px solid rgba(217, 164, 65, 0.65);
+  border-radius: 12px;
+  color: var(--deep-maroon);
+  background: var(--light-gold);
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.shareloc-btn:hover,
+.shareloc-btn:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(217, 164, 65, 0.22);
+}
+
+.shareloc-btn:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
+
+.shareloc-status {
+  min-height: 1.2em;
+  color: var(--muted-text);
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.shareloc-status[data-type="error"] {
+  color: var(--primary-maroon);
 }
 
 .cart-summary {
@@ -2760,53 +2816,166 @@ body.cart-open {
 }
 
 @media (max-width: 560px) {
+  .order-hero,
+  .order-toolbar {
+    display: none;
+  }
+
   .order-section {
-    padding: 30px 0 68px;
+    padding: 0 0 82px;
+    background: #f7f7f7;
   }
 
-  .order-menu-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
-  }
-
-  .order-menu-photo {
-    height: 116px;
-  }
-
-  .order-menu-body {
-    min-height: 228px;
-    padding: 12px;
-  }
-
-  .order-menu-body h3 {
-    font-size: 0.96rem;
-  }
-
-  .order-menu-desc {
-    font-size: 0.84rem;
-  }
-
-  .order-menu-footer {
-    display: grid;
-    align-items: start;
-  }
-
-  .add-cart-btn,
-  .qty-btn,
-  .qty-control {
+  .order-section .container {
     width: 100%;
   }
 
+  .menu-filter-scroll {
+    position: sticky;
+    top: var(--header-height);
+    z-index: 80;
+    gap: 10px;
+    padding: 10px 16px 12px;
+    border-bottom: 1px solid rgba(74, 13, 10, 0.08);
+    background: #fff8ea;
+    scrollbar-width: none;
+  }
+
+  .menu-filter-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  .menu-filter-btn {
+    min-width: max-content;
+    padding: 10px 16px;
+    border-color: rgba(217, 164, 65, 0.5);
+    background: #fff7e6;
+    box-shadow: none;
+  }
+
+  .order-menu-grid {
+    display: block;
+    padding-bottom: 96px;
+    background: #f7f7f7;
+  }
+
+  .order-menu-card {
+    position: relative;
+    display: grid;
+    grid-template-columns: 78px minmax(0, 1fr);
+    align-items: center;
+    min-height: 104px;
+    padding: 10px 12px 10px 4px;
+    border: 0;
+    border-bottom: 1px solid rgba(38, 22, 18, 0.13);
+    border-radius: 0;
+    background: #f7f7f7;
+    box-shadow: none;
+  }
+
+  .order-menu-card:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .order-menu-photo {
+    width: 72px;
+    height: 72px;
+    border-radius: 8px;
+    align-self: center;
+  }
+
+  .order-menu-body {
+    display: block;
+    min-height: 0;
+    padding: 0 118px 0 12px;
+  }
+
+  .order-menu-body h3 {
+    margin: 0;
+    color: #273444;
+    font-family: var(--font-body);
+    font-size: 1.02rem;
+    line-height: 1.25;
+    font-weight: 900;
+  }
+
+  .order-menu-category,
+  .order-menu-desc {
+    display: none;
+  }
+
+  .order-menu-footer {
+    display: block;
+    margin-top: 8px;
+  }
+
+  .order-menu-footer strong {
+    display: block;
+    color: #b50000;
+    font-size: 0.96rem;
+    line-height: 1.2;
+    font-weight: 900;
+  }
+
+  .order-menu-footer > .qty-control,
+  .order-menu-footer > .qty-btn,
+  .order-menu-footer .order-action-wrap {
+    position: absolute;
+    top: 50%;
+    right: 22px;
+    width: 100px;
+    transform: translateY(-50%);
+  }
+
+  .order-add-btn {
+    display: none;
+  }
+
+  .order-mobile-stepper {
+    display: inline-grid;
+  }
+
+  .qty-btn {
+    min-height: 34px;
+    padding: 7px 10px;
+    border-radius: 12px;
+    font-size: 0.82rem;
+  }
+
   .qty-control {
-    grid-template-columns: 1fr 1fr 1fr;
+    width: 100px;
+    grid-template-columns: 34px 32px 34px;
+    gap: 8px;
+    overflow: visible;
+    border: 0;
+    background: transparent;
+  }
+
+  .qty-control button {
+    width: 34px;
+    min-height: 34px;
+    border-radius: 11px;
+    color: #ffffff;
+    background: #cf4141;
+  }
+
+  .qty-control button:disabled {
+    opacity: 0.55;
+  }
+
+  .qty-control span {
+    color: #2e3d4c;
+    font-size: 1rem;
+    line-height: 34px;
+  }
+
+  .order-menu-card.is-empty {
+    opacity: 0.66;
   }
 
   .stock-badge {
-    top: 8px;
-    left: 8px;
-    min-height: 24px;
-    padding: 5px 8px;
-    font-size: 0.7rem;
+    display: none;
   }
 
   .admin-stats {
